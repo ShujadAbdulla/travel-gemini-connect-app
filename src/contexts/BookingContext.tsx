@@ -78,12 +78,18 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       throw new Error("User must be logged in to create a booking");
     }
 
+    // Ensure that serviceType is correctly set based on the form being used
+    const serviceType = bookingData.transportType !== "none" ? 
+      (bookingData.transportType === "standard" ? "medical" : "non-medical") : 
+      bookingData.serviceType;
+
     const newBooking: Booking = {
       ...bookingData,
       id: `booking-${Date.now()}`,
       userId: user.id,
       status: "pending",
-      paymentStatus: "pending"
+      paymentStatus: "pending",
+      serviceType: serviceType
     };
 
     const updatedBookings = [...bookings, newBooking];

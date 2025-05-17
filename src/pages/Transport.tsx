@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,46 +12,33 @@ const Transport = () => {
   const navigate = useNavigate();
 
   // Form state
-  const [serviceType, setServiceType] = useState<"medical" | "non-medical">("medical");
   const [transportType, setTransportType] = useState<"standard" | "wheelchair" | "stretcher">("standard");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   const [dropoffAddress, setDropoffAddress] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [specialRequirements, setSpecialRequirements] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Determine service type based on transport type
+  const determineServiceType = () => {
+    return transportType === "standard" ? "medical" : "non-medical";
+  };
+
+  // Price calculation based on transport type
   const getPriceEstimate = () => {
-    // Calculate price based on transport type and service type
-    let basePrice = 0;
-    
     switch(transportType) {
-      case "standard":
-        basePrice = 50;
-        break;
-      case "wheelchair":
-        basePrice = 75;
-        break;
-      case "stretcher":
-        basePrice = 120;
-        break;
-      default:
-        basePrice = 50;
+      case "wheelchair": return 75;
+      case "stretcher": return 120;
+      default: return 50; // standard
     }
-    
-    // Add premium for medical transport
-    if (serviceType === "medical") {
-      basePrice += 25;
-    }
-    
-    return basePrice;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!user) {
-      toast.error("Please log in to book transportation");
+      toast.error("Please log in to book transport services");
       navigate("/login");
       return;
     }
@@ -75,7 +61,7 @@ const Transport = () => {
       const price = getPriceEstimate();
       
       const newBooking = await createBooking({
-        serviceType,
+        serviceType: determineServiceType(),
         transportType,
         date,
         time,
@@ -106,61 +92,6 @@ const Transport = () => {
 
           <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
             <form onSubmit={handleSubmit}>
-              <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-4">Service Type</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                      serviceType === "medical" 
-                        ? "border-careblue-500 bg-careblue-50" 
-                        : "border-gray-200 hover:border-careblue-300"
-                    }`}
-                    onClick={() => setServiceType("medical")}
-                  >
-                    <div className="flex items-center">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                        serviceType === "medical" ? "bg-careblue-500" : "border border-gray-300"
-                      }`}>
-                        {serviceType === "medical" && (
-                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                          </svg>
-                        )}
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="font-medium text-gray-900">Medical Transportation</h3>
-                        <p className="text-sm text-gray-500">For hospital visits, medical appointments</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                      serviceType === "non-medical" 
-                        ? "border-careblue-500 bg-careblue-50" 
-                        : "border-gray-200 hover:border-careblue-300"
-                    }`}
-                    onClick={() => setServiceType("non-medical")}
-                  >
-                    <div className="flex items-center">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                        serviceType === "non-medical" ? "bg-careblue-500" : "border border-gray-300"
-                      }`}>
-                        {serviceType === "non-medical" && (
-                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
-                          </svg>
-                        )}
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="font-medium text-gray-900">Non-Medical Transportation</h3>
-                        <p className="text-sm text-gray-500">For pharmacy, grocery, or social visits</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div className="mb-6">
                 <h2 className="text-xl font-semibold mb-4">Transport Type</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

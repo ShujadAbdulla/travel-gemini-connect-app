@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -92,6 +91,19 @@ const Checkout = () => {
     }
   };
 
+  // Get booking type description
+  const getBookingTypeDescription = () => {
+    if (!booking) return '';
+    
+    if (booking.serviceType === 'nurse') {
+      return `${booking.nurseType} Nurse - ${booking.careType} Care`;
+    } else if (booking.transportType !== 'none') {
+      return `${booking.serviceType} Transport - ${booking.transportType}`;
+    } else {
+      return `${booking.serviceType} Service`;
+    }
+  };
+
   // Format card number with spaces for readability
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
@@ -107,17 +119,6 @@ const Checkout = () => {
       return parts.join(' ');
     } else {
       return value;
-    }
-  };
-
-  // Get booking type description
-  const getBookingTypeDescription = () => {
-    if (!booking) return '';
-    
-    if (booking.serviceType === 'nurse') {
-      return `${booking.nurseType} Nurse - ${booking.careType} Care`;
-    } else {
-      return `${booking.serviceType} Transport - ${booking.transportType}`;
     }
   };
 

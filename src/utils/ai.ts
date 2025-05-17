@@ -34,7 +34,8 @@ export const hasGeminiKey = () => {
 export const generateCareAdvice = async (query: string): Promise<string> => {
   try {
     const genAI = getGeminiAPI();
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // Updated to use the latest model name format
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     
     // Add a specific system prompt for healthcare context
     const prompt = `

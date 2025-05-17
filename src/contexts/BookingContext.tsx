@@ -6,8 +6,11 @@ import { useAuth } from "./AuthContext";
 export interface Booking {
   id: string;
   userId: string;
-  serviceType: "medical" | "non-medical";
-  transportType: "standard" | "wheelchair" | "stretcher";
+  serviceType: "medical" | "non-medical" | "nurse";
+  transportType: "standard" | "wheelchair" | "stretcher" | "none";
+  nurseType?: "registered" | "practical" | "specialized";
+  careType?: "home" | "facility" | "telehealth";
+  hours?: number;
   date: string;
   time: string;
   pickupAddress: string;

@@ -15,12 +15,12 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hello! I\'m your CareConnect AI assistant. I can help you with transportation needs, care advice, and answer questions about our services. How can I assist you today?'
+      content: 'Hello! I\'m your CareConnect AI assistant. I can help you with transportation needs, nurse bookings, care advice, and answer questions about our services. How can I assist you today?'
     }
   ]);
   
   const [input, setInput] = useState('');
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState('AIzaSyD8kldOijOeC4IBoPdsvQYq-bAWqNvxZ0I'); // Pre-filled with user provided key
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   
@@ -29,8 +29,10 @@ const AIAssistant = () => {
 
   // Check if API key is set
   useEffect(() => {
+    // We have a pre-filled key now, but let's check if there's an existing one in local storage
     if (!hasGeminiKey()) {
-      setIsApiKeyModalOpen(true);
+      // Initialize with the provided API key
+      initGeminiAPI(apiKey);
     }
   }, []);
 
@@ -118,7 +120,7 @@ const AIAssistant = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Care Assistant</h1>
             <p className="text-gray-600">
-              Get help with transport bookings, care advice, and more
+              Get help with transport bookings, nursing care, care advice, and more
             </p>
           </div>
 
@@ -162,22 +164,22 @@ const AIAssistant = () => {
               <div className="text-sm text-gray-500 mb-2">Common Questions:</div>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => handleQuickQuestion('How do I book transportation?')}
+                  onClick={() => handleQuickQuestion('How do I book nursing services?')}
                   className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-3 rounded-full"
                 >
-                  How do I book transportation?
+                  How do I book nursing services?
                 </button>
                 <button
-                  onClick={() => handleQuickQuestion('What types of transport do you provide?')}
+                  onClick={() => handleQuickQuestion('What types of nurses do you provide?')}
                   className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-3 rounded-full"
                 >
-                  What types of transport do you provide?
+                  What types of nurses do you provide?
                 </button>
                 <button
-                  onClick={() => handleQuickQuestion('Is wheelchair transport available?')}
+                  onClick={() => handleQuickQuestion('Do you offer telehealth nursing?')}
                   className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-3 rounded-full"
                 >
-                  Is wheelchair transport available?
+                  Do you offer telehealth nursing?
                 </button>
               </div>
             </div>
@@ -205,17 +207,31 @@ const AIAssistant = () => {
           </div>
 
           {/* Call to action */}
-          <div className="mt-8 bg-careblue-50 border border-careblue-200 rounded-lg p-6 text-center">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Need to book transportation?</h3>
-            <p className="text-gray-600 mb-4">
-              Our AI assistant can help with advice, but you can also book directly through our platform.
-            </p>
-            <Button 
-              onClick={() => navigate('/transport')}
-              className="bg-careblue-600 hover:bg-careblue-700"
-            >
-              Book Transportation
-            </Button>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-careblue-50 border border-careblue-200 rounded-lg p-6 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Need to book transportation?</h3>
+              <p className="text-gray-600 mb-4">
+                Our AI assistant can help with advice, but you can also book directly through our platform.
+              </p>
+              <Button 
+                onClick={() => navigate('/transport')}
+                className="bg-careblue-600 hover:bg-careblue-700"
+              >
+                Book Transportation
+              </Button>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Need nursing services?</h3>
+              <p className="text-gray-600 mb-4">
+                Book professional nursing care when and where you need it.
+              </p>
+              <Button 
+                onClick={() => navigate('/nurses')}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                Book Nursing Services
+              </Button>
+            </div>
           </div>
 
           {/* API Key Modal */}

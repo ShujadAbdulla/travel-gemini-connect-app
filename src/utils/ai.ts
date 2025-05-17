@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the Google Generative AI with your API key
 // This key will be provided by the user or via environment variables
-let geminiApiKey = '';
+let geminiApiKey = 'AIzaSyD8kldOijOeC4IBoPdsvQYq-bAWqNvxZ0I'; // Default key provided by user
 
 export const initGeminiAPI = (apiKey: string) => {
   geminiApiKey = apiKey;
@@ -42,7 +42,7 @@ export const generateCareAdvice = async (query: string): Promise<string> => {
       
       ${query}
       
-      Focus on general wellness information, transportation options, and care coordination. 
+      Focus on general wellness information, transportation options, nursing care, and care coordination. 
       Do not provide specific medical diagnoses or treatment recommendations.
     `;
     

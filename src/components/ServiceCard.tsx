@@ -11,6 +11,7 @@ interface ServiceCardProps {
   buttonText?: string;
   navigateTo?: string;
   className?: string;
+  buttonColor?: string;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -19,7 +20,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   icon,
   buttonText = "Learn More",
   navigateTo = "/services",
-  className = ""
+  className = "",
+  buttonColor = "careblue-600"
 }) => {
   const navigate = useNavigate();
   
@@ -37,7 +39,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <CardFooter>
         <Button 
           variant="outline" 
-          className="w-full border-careblue-500 text-careblue-600 hover:bg-careblue-50"
+          className={`w-full border-${buttonColor} text-${buttonColor} hover:bg-${buttonColor.replace('600', '50')}`}
           onClick={() => navigate(navigateTo)}
         >
           {buttonText}

@@ -32,7 +32,7 @@ const Checkout = () => {
     
     if (!booking) {
       toast.error("Booking not found");
-      navigate("/transport");
+      navigate("/");
     }
   }, [booking, user, navigate]);
   
@@ -110,6 +110,17 @@ const Checkout = () => {
     }
   };
 
+  // Get booking type description
+  const getBookingTypeDescription = () => {
+    if (!booking) return '';
+    
+    if (booking.serviceType === 'nurse') {
+      return `${booking.nurseType} Nurse - ${booking.careType} Care`;
+    } else {
+      return `${booking.serviceType} Transport - ${booking.transportType}`;
+    }
+  };
+
   if (!booking) {
     return (
       <Layout>
@@ -126,7 +137,7 @@ const Checkout = () => {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Complete Your Booking</h1>
-            <p className="text-gray-600 mt-2">Review and pay for your transportation</p>
+            <p className="text-gray-600 mt-2">Review and pay for your services</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -138,11 +149,7 @@ const Checkout = () => {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Service Type:</span>
-                    <span className="font-medium capitalize">{booking.serviceType}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Transport Type:</span>
-                    <span className="font-medium capitalize">{booking.transportType}</span>
+                    <span className="font-medium capitalize">{getBookingTypeDescription()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Date:</span>
@@ -152,16 +159,32 @@ const Checkout = () => {
                     <span className="text-gray-600">Time:</span>
                     <span className="font-medium">{booking.time}</span>
                   </div>
+
+                  {booking.hours && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Duration:</span>
+                      <span className="font-medium">{booking.hours} hour(s)</span>
+                    </div>
+                  )}
                   
                   <div className="border-t border-gray-200 my-3 pt-3">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Pickup:</span>
-                      <span className="font-medium text-right">{booking.pickupAddress}</span>
-                    </div>
-                    <div className="flex justify-between mt-2">
-                      <span className="text-gray-600">Dropoff:</span>
-                      <span className="font-medium text-right">{booking.dropoffAddress}</span>
-                    </div>
+                    {booking.serviceType === 'nurse' ? (
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Address:</span>
+                        <span className="font-medium text-right">{booking.pickupAddress}</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Pickup:</span>
+                          <span className="font-medium text-right">{booking.pickupAddress}</span>
+                        </div>
+                        <div className="flex justify-between mt-2">
+                          <span className="text-gray-600">Dropoff:</span>
+                          <span className="font-medium text-right">{booking.dropoffAddress}</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                   
                   <div className="border-t border-gray-200 my-3 pt-3">
@@ -263,7 +286,7 @@ const Checkout = () => {
                       type="button"
                       variant="outline"
                       className="border-gray-300 text-gray-700"
-                      onClick={() => navigate('/transport')}
+                      onClick={() => booking.serviceType === 'nurse' ? navigate('/nurses') : navigate('/transport')}
                       disabled={isProcessing}
                     >
                       Back to Booking

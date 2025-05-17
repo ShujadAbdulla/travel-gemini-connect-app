@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Transport from "./pages/Transport";
+import Nurses from "./pages/Nurses";
 import Checkout from "./pages/Checkout";
 import BookingSuccess from "./pages/BookingSuccess";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/transport" element={<Transport />} />
+            <Route path="/nurses" element={<Nurses />} />
             <Route path="/checkout/:bookingId" element={<Checkout />} />
             <Route path="/booking-success/:bookingId" element={<BookingSuccess />} />
             <Route path="/dashboard" element={<Dashboard />} />

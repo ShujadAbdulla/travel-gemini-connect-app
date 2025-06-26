@@ -28,8 +28,7 @@ const Index = () => {
                   Book Transport
                 </Button>
                 <Button 
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white/10 font-medium px-6 py-2"
+                  className="bg-careblue-600 text-white hover:bg-careblue-700 font-medium px-6 py-2"
                   onClick={() => navigate('/services')}
                 >
                   Explore Services

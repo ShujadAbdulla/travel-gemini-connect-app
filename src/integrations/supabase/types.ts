@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      booking_stats: {
+        Row: {
+          cancelled_bookings: number
+          completed_bookings: number
+          id: string
+          pending_bookings: number
+          total_bookings: number
+          total_revenue: number
+          updated_at: string
+        }
+        Insert: {
+          cancelled_bookings?: number
+          completed_bookings?: number
+          id?: string
+          pending_bookings?: number
+          total_bookings?: number
+          total_revenue?: number
+          updated_at?: string
+        }
+        Update: {
+          cancelled_bookings?: number
+          completed_bookings?: number
+          id?: string
+          pending_bookings?: number
+          total_bookings?: number
+          total_revenue?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           address: string
@@ -44,6 +74,63 @@ export type Database = {
           special_instructions?: string | null
           status?: string
           symptoms?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      daily_booking_metrics: {
+        Row: {
+          bookings_count: number
+          created_at: string
+          date: string
+          id: string
+          revenue: number
+          updated_at: string
+        }
+        Insert: {
+          bookings_count?: number
+          created_at?: string
+          date: string
+          id?: string
+          revenue?: number
+          updated_at?: string
+        }
+        Update: {
+          bookings_count?: number
+          created_at?: string
+          date?: string
+          id?: string
+          revenue?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nurse_performance: {
+        Row: {
+          average_rating: number | null
+          completed_bookings: number
+          id: string
+          nurse_id: string
+          total_bookings: number
+          total_earnings: number
+          updated_at: string
+        }
+        Insert: {
+          average_rating?: number | null
+          completed_bookings?: number
+          id?: string
+          nurse_id: string
+          total_bookings?: number
+          total_earnings?: number
+          updated_at?: string
+        }
+        Update: {
+          average_rating?: number | null
+          completed_bookings?: number
+          id?: string
+          nurse_id?: string
+          total_bookings?: number
+          total_earnings?: number
           updated_at?: string
         }
         Relationships: []

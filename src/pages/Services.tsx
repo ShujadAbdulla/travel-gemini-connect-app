@@ -341,7 +341,7 @@ const Services = () => {
                 Book Transport
               </Button>
               <Button
-                onClick={() => navigate('/contact')}
+                onClick={() => window.location.href = 'mailto:support@careconnect.com'}
                 variant="outline"
                 className="border-careblue-500 text-careblue-600 hover:bg-careblue-50 px-8 py-2"
                 size="lg"
